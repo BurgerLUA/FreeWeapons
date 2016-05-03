@@ -12,8 +12,7 @@ function ENT:Initialize()
 	--self:SetCollisionGroup(COLLISION_GROUP_NONE)
 	self:SetUseType(CONTINUOUS_USE)
 	self.Hit = false
-	
-	
+		
 	self.EnableHitPlayers = 1
 	
 	local phys = self:GetPhysicsObject()
@@ -135,7 +134,7 @@ function ENT:Think()
 
 	if not self.FakeOwner:Alive() then self:Detonate(self,self:GetPos()) return end
 	
-	if self.FakeOwner:GetActiveWeapon():GetClass() == "weapon_bur_c4" and self.FakeOwner:KeyDown( IN_ATTACK2 ) then
+	if self.FakeOwner:GetActiveWeapon():GetClass() == "weapon_hl2_c4" and self.FakeOwner:KeyDown( IN_ATTACK2 ) then
 		if self.Parented == 1 then
 			self:Detonate(self,self.HitEntity:GetPos())
 		else

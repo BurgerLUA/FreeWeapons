@@ -1,9 +1,8 @@
 if CLIENT then
-	killicon.AddFont( "weapon_cs_357",			"HL2MPTypeDeath",	".",	Color( 255, 80, 0, 255 ) )
-	killicon.AddFont( "ent_cs_crossbow_bolt",		"HL2MPTypeDeath",	"1",	Color( 255, 80, 0, 255 ) )
-	killicon.AddFont( "ent_cs_combine_ball",	"HL2MPTypeDeath",	"8",	Color( 255, 80, 0, 255 ) )
-	killicon.AddFont( "ent_cs_smg1_grenade",		"HL2MPTypeDeath",	"7",	Color( 255, 80, 0, 255 ) )
-	killicon.AddFont( "weapon_cs_stunstick",	"HL2MPTypeDeath",	"!",	Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "weapon_hl2_357",			"HL2MPTypeDeath",	".",	Color( 255, 80, 0, 255 ) )
+--	killicon.AddFont( "ent_cs_crossbow_bolt",		"HL2MPTypeDeath",	"1",	Color( 255, 80, 0, 255 ) )
+--	killicon.AddFont( "ent_cs_combine_ball",	"HL2MPTypeDeath",	"8",	Color( 255, 80, 0, 255 ) )
+--	killicon.AddFont( "ent_cs_smg1_grenade",		"HL2MPTypeDeath",	"7",	Color( 255, 80, 0, 255 ) )
 end
 
 SWEP.Category				= "Extra Weapons"

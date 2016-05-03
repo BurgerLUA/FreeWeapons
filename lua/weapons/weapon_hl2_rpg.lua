@@ -1,7 +1,7 @@
 
 if CLIENT then
-	killicon.AddFont( "ent_cs_rocket",		"HL2MPTypeDeath",	"3",	Color( 255, 80, 0, 255 ) )
-	killicon.AddFont( "weapon_cs_rocket",		"HL2MPTypeDeath",	"3",	Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "ent_hl2_rocket",		"HL2MPTypeDeath",	"3",	Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "weapon_hl2_rocket",		"HL2MPTypeDeath",	"3",	Color( 255, 80, 0, 255 ) )
 end
 
 
@@ -66,6 +66,6 @@ SWEP.IronSightsPos 			= Vector(0, 0, 0)
 SWEP.IronSightsAng 			= Vector(0, 0, 0)
 
 function SWEP:ShootBullet(Damage,Shots,Cone,Source,Direction,Source)
-	self:ThrowObject("ent_cs_rocket",10000)
+	self:ThrowObject("ent_hl2_rocket",10000)
 	self:SendWeaponAnim(ACT_VM_RELOAD)
 end

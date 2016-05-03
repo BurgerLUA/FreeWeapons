@@ -1,5 +1,5 @@
 if CLIENT then
-	killicon.AddFont( "weapon_cs_smg",		"HL2MPTypeDeath",	"/",	Color( 255, 80, 0, 255 ) )
+	--killicon.AddFont( "weapon_cs_smg",		"HL2MPTypeDeath",	"/",	Color( 255, 80, 0, 255 ) )
 	SWEP.WepSelectIcon 		= surface.GetTextureID("vgui/gfx/vgui/mp5")
 end
 
@@ -59,7 +59,7 @@ SWEP.HasSideRecoil			= true
 SWEP.HasDownRecoil			= false
 SWEP.HasDryFire				= false
 
-SWEP.Object					= "ent_cs_gasparticle"
+SWEP.Object					= "ent_hl2_gasparticle"
 
 SWEP.HasIronSights 			= false
 SWEP.EnableIronCross		= true

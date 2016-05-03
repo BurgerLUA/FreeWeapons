@@ -38,7 +38,7 @@ SWEP.Secondary.Automatic	= true
 SWEP.Secondary.Ammo			= "none"
 
 if CLIENT then
-	killicon.AddFont( "ent_cs_tesla", "HL2MPTypeDeath", "!", Color( 255, 200, 0, 255 ) )
+	killicon.AddFont( "ent_hl2_tesla", "HL2MPTypeDeath", "!", Color( 255, 200, 0, 255 ) )
 end
 
 function SWEP:PrimaryAttack()
@@ -53,7 +53,7 @@ function SWEP:PrimaryAttack()
 	
 	local Exists = false
 	
-	for k, v in pairs(ents.FindByClass("ent_cs_tesla")) do
+	for k, v in pairs(ents.FindByClass("ent_hl2_tesla")) do
 		if v:GetOwner() == self.Owner then
 			Exists = true
 		end
@@ -71,7 +71,7 @@ function SWEP:PrimaryAttack()
 	if self.Owner:IsValid() == false then return end
 	if self.Owner:Alive() == false then return end
 	
-	local ent = ents.Create( "ent_cs_tesla" )
+	local ent = ents.Create( "ent_hl2_tesla" )
 	EA =  self.Owner:EyeAngles()
 	pos = self.Owner:GetShootPos()
 	pos = pos + EA:Right() * 5 - EA:Up() * 4 + EA:Forward() * 8
@@ -88,7 +88,7 @@ end
 
 function SWEP:SecondaryAttack()
 	if SERVER then
-		for k, v in pairs(ents.FindByClass("ent_cs_tesla")) do
+		for k, v in pairs(ents.FindByClass("ent_hl2_tesla")) do
 			if v:GetOwner() == self.Owner then
 				v:FreeFire()
 			end
@@ -99,7 +99,7 @@ end
 
 function SWEP:Reload()
 	if SERVER then
-		for k, v in pairs(ents.FindByClass("ent_cs_tesla")) do
+		for k, v in pairs(ents.FindByClass("ent_hl2_tesla")) do
 			if v:GetOwner() == self.Owner then
 				v:Detonate(v:GetPos())
 			end

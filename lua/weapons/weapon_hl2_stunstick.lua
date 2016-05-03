@@ -1,5 +1,5 @@
 if CLIENT then
-	killicon.AddFont( "weapon_ex_stunstick",	"HL2MPTypeDeath",	"!",	Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "weapon_hl2_stunstick",	"HL2MPTypeDeath",	"!",	Color( 255, 80, 0, 255 ) )
 end
 
 SWEP.Category				= "Extra Weapons"

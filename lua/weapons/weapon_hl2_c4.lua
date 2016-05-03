@@ -29,7 +29,7 @@ SWEP.Secondary.Automatic	= false
 SWEP.Secondary.Ammo		= "none"
 
 if CLIENT then
-	killicon.AddFont( "ent_bur_slam", "HL2MPTypeDeath", "*", Color( 255, 200, 0, 255 ) )
+	killicon.AddFont( "ent_hl2_c4", "HL2MPTypeDeath", "*", Color( 255, 200, 0, 255 ) )
 end
 
 function SWEP:PrimaryAttack()
@@ -45,7 +45,7 @@ function SWEP:PrimaryAttack()
 	
 	local Count = 0
 	
-	for k, v in pairs(ents.FindByClass("ent_bur_slam")) do
+	for k, v in pairs(ents.FindByClass("ent_hl2_c4")) do
 		if v.FakeOwner == self.Owner then Count = Count + 1 end
 	end
 	
@@ -63,7 +63,7 @@ function SWEP:PrimaryAttack()
 		if self.Owner:Alive() == false then return end
 
 		self:SendWeaponAnim( ACT_SLAM_DETONATOR_DRAW )
-		local ent = ents.Create( "ent_bur_slam" )
+		local ent = ents.Create( "ent_hl2_c4" )
 			EA =  self.Owner:EyeAngles()
 			pos = self.Owner:GetShootPos()
 			pos = pos + EA:Right() * 5 - EA:Up() * 4 + EA:Forward() * 8

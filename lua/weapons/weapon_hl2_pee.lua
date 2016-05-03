@@ -1,8 +1,8 @@
 
 
 if CLIENT then
-	killicon.AddFont( "ent_cum", "ChatFont", "8==>" , Color( 255, 80, 0, 255 ) )
-	killicon.AddFont( "ent_pee", "ChatFont", "8==>" , Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "ent_hl2_cum", "ChatFont", "8==>" , Color( 255, 80, 0, 255 ) )
+	killicon.AddFont( "ent_hl2_pee", "ChatFont", "8==>" , Color( 255, 80, 0, 255 ) )
 end
 
 SWEP.PrintName 					= "PENIS"                         
