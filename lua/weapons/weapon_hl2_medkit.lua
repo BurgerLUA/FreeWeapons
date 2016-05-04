@@ -118,7 +118,9 @@ function SWEP:HealTarget(target)
 	
 		local DesiredHeal = math.Clamp(target:GetMaxHealth() - target:Health(),0, math.min(10,self:Ammo1()))
 		
-		self:TakePrimaryAmmo( DesiredHeal )
+		if not self.Owner:IsBot() then
+			self:TakePrimaryAmmo( DesiredHeal )
+		end
 
 		target:SetHealth( target:Health() + DesiredHeal )
 		target:EmitSound( HealSound )
