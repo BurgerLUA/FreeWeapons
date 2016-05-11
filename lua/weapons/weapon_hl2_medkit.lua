@@ -109,7 +109,7 @@ end
 
 
 function SWEP:CanHeal(target)
-	return ( IsValid( target ) && self:Ammo1() ~= 0 && target:Health() < target:GetMaxHealth() )
+	return ( IsValid( target ) and (self:Ammo1() ~= 0 or self.Owner:IsBot() ) and target:Health() < target:GetMaxHealth() )
 end
 
 function SWEP:HealTarget(target)
