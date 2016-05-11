@@ -17,6 +17,7 @@ SWEP.UseHands			= true
 
 SWEP.ViewModel			= "models/weapons/c_medkit.mdl"
 SWEP.WorldModel			= "models/weapons/w_medkit.mdl"
+SWEP.HoldType			= "slam"
 
 SWEP.ViewModelFOV		= 54
 SWEP.Slot				= 0
@@ -109,7 +110,7 @@ end
 
 
 function SWEP:CanHeal(target)
-	return ( IsValid( target ) and (self:Ammo1() ~= 0 or self.Owner:IsBot() ) and target:Health() < target:GetMaxHealth() )
+	return (IsValid( target ) and self.Owner:IsBot()) or ( IsValid( target ) and (self:Ammo1() ~= 0 ) and target:Health() < target:GetMaxHealth() )
 end
 
 function SWEP:HealTarget(target)
