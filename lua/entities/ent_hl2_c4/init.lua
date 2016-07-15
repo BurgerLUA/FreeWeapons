@@ -127,7 +127,6 @@ function ENT:Think()
 	if CurTime() >= self.armTime then
 		if self.soundVar == 0 then
 			self:EmitSound("weapons/tripwire/mine_activate.wav")
-			--print("penis")
 			self.soundVar = 1
 		end
 	else return end
