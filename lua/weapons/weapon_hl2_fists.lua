@@ -17,7 +17,7 @@ SWEP.AdminOnly				= false
 SWEP.Slot					= 0
 SWEP.SlotPos				= 1
 
-SWEP.ViewModel 				= Model( "models/weapons/c_arms.mdl" )
+SWEP.ViewModel				= Model( "models/weapons/c_arms.mdl" )
 SWEP.WorldModel				= ""
 SWEP.VModelFlip 			= false
 SWEP.HoldType				= "fist"

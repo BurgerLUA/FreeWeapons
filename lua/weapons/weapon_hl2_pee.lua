@@ -89,8 +89,11 @@ end
 
 function SWEP:Reload()
 
-	if self:GetNextPrimaryFire() <= CurTime() and self:GetNextSecondaryFire() <= CurTime() then
-		self:Rape()
+	if SERVER then
+		if self:GetNextPrimaryFire() <= CurTime() and self:GetNextSecondaryFire() <= CurTime() then
+			self:Rape()
+			--print("RAPE?")
+		end
 	end
 	
 	--self:SetNextPrimaryFire( CurTime() + 1 )
@@ -103,12 +106,6 @@ function SWEP:GetPenisPosAng(Add)
 	ShootAng.p = math.Clamp(ShootAng.p,-45,45)
 	local ShootPos = self.Owner:GetPos() + self.Owner:OBBCenter() + Angle(0,self.Owner:GetAngles().y,0):Forward()*3
 	return ShootPos,ShootAng
-end
-
-function SWEP:Rape()
-	if SERVER then
-		self:DoRape()
-	end
 end
 
 function SWEP:ShootPiss(ShootPos,ShootAng)
@@ -270,14 +267,14 @@ local SoundDelay = 1.5
 local RapeLength = 10
 
 
-function SWEP:DoRape()
+function SWEP:Rape()
 
 	local ply = self.Owner
 
 	if !ply or !ply:IsValid() then return end
 
-	if not ( ply:HasWeapon( "weapon_rape" ) or ply:HasWeapon( "weapon_bur_pee") ) then return end
-	if not ( ply:GetActiveWeapon():GetClass() == "weapon_rape" or ply:GetActiveWeapon():GetClass() == "weapon_bur_pee" ) then return end
+	if not ( ply:HasWeapon( "weapon_rape" ) or ply:HasWeapon( "weapon_hl2_pee") ) then return end
+	if not ( ply:GetActiveWeapon():GetClass() == "weapon_rape" or ply:GetActiveWeapon():GetClass() == "weapon_hl2_pee" ) then return end
 
 	local plyAttacker = ply
 	local plyAttackerPos = plyAttacker:GetPos()

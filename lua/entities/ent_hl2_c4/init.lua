@@ -133,6 +133,15 @@ function ENT:Think()
 
 	if not self.FakeOwner:Alive() then self:Detonate(self,self:GetPos()) return end
 	
+	
+	if not self.FakeOwner or self.FakeOwner == NULL then
+		SafeRemoveEntity(self)
+	end
+	
+	if not self.FakeOwner:GetActiveWeapon() or self.FakeOwner:GetActiveWeapon() == NULL then
+		SafeRemoveEntity(self)
+	end
+	
 	if self.FakeOwner:GetActiveWeapon():GetClass() == "weapon_hl2_c4" and self.FakeOwner:KeyDown( IN_ATTACK2 ) then
 		if self.Parented == 1 then
 			self:Detonate(self,self.HitEntity:GetPos())
