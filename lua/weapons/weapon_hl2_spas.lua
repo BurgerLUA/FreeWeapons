@@ -11,6 +11,9 @@ SWEP.WeaponType				= "Primary"
 SWEP.Spawnable				= true
 SWEP.AdminOnly				= false
 
+SWEP.Cost					= 0
+SWEP.CSSMoveSpeed			= 230
+
 SWEP.Slot					= 2
 SWEP.SlotPos				= 1
 

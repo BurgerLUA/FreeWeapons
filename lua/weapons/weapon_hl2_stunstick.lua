@@ -5,10 +5,10 @@ end
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "STUNSTICK"
 SWEP.Base					= "weapon_cs_base"
-SWEP.WeaponType				= "Free"
+SWEP.WeaponType				= "Melee"
 
 SWEP.Cost					= 0
-SWEP.CSSMoveSpeed				= 240
+SWEP.CSSMoveSpeed			= 240
 
 SWEP.Spawnable				= true
 SWEP.AdminOnly				= false
@@ -27,7 +27,7 @@ if CLIENT then
 	language.Add("smod_metal_ammo","Metal")
 end
 
-SWEP.Primary.Damage			= 75
+SWEP.Primary.Damage			= 40
 SWEP.Primary.NumShots		= 1
 SWEP.Primary.ClipSize		= 100
 SWEP.Primary.SpareClip		= 0
@@ -67,9 +67,16 @@ SWEP.IronSightsAng 			= Vector(0, 0, -45)
 
 SWEP.AddFOV					= 10
 
-SWEP.DamageFalloff			= 1000
 
 SWEP.EnableBlocking			= true
+
+
+SWEP.DamageFalloff			= 40
+SWEP.MeleeRange				= 40
+SWEP.MeleeDamageType		= DMG_SHOCK
+SWEP.MeleeDelay				= 0
+
+
 
 function SWEP:PrimaryAttack()
 	if self:IsUsing() then return end
@@ -80,7 +87,7 @@ function SWEP:PrimaryAttack()
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
 	if self:NewSwing(self.Primary.Damage*0.75 + (self.Primary.Damage*0.25*self:Clip1()*0.01) ) then
-		self:AddDurability(-math.random(1,3))
+		self:AddDurability(-2)
 	end
 end
 
@@ -129,74 +136,24 @@ end
 
 function SWEP:Deploy()
 
-	self:EmitGunSound(Sound("Weapon_SMODSword.Deploy"))
+	self:EmitGunSound(Sound("Weapon_StunStick.Activate"))
 	self.Owner:DrawViewModel(true)
 	self:SendWeaponAnim(ACT_VM_DRAW)
 	self:SetNextPrimaryFire(CurTime() + self.Owner:GetViewModel():SequenceDuration())	
+	self:CheckInventory()
 	
 	return true
 end
 
-function SWEP:BlockDamage(Damage)
+function SWEP:BlockDamage(Damage,Attacker)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	self:SendWeaponAnim(ACT_VM_HITCENTER)
+	self:SendWeaponAnim(ACT_VM_MISSCENTER)
 	self:EmitGunSound(self.MeleeSoundMiss)
 	self.Owner:EmitSound(Sound("AlyxEMP.Discharge"))
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay*0.5)
-	--self:SetNextSecondaryFire(CurTime() + self.Primary.Delay*0.25)
-	self:AddDurability( -math.random(1,3) )
+	self:NewSwing(self.Primary.Damage * 0.5,Attacker,nil)
+	self:AddDurability( -3 )
 end
-
-function SHIELD_ScalePlayerDamage(victim,hitgroup,dmginfo)
-	--[[
-	local attacker = dmginfo:GetAttacker()
-	local Weapon = victim:GetActiveWeapon()
-	local Damage = dmginfo:GetDamage()
-	local WeaponAttacker = dmginfo:GetInflictor()
-
-	if Weapon and Weapon ~= NULL and Weapon:GetClass() == "weapon_ex_swordandshield" then
-	
-		local VictimKeyDown = Weapon:GetIsBlocking()
-		
-		local ShouldProceed = true
-		
-		if attacker:IsPlayer() and attacker:GetActiveWeapon() and attacker:GetActiveWeapon():IsValid() then
-			WeaponAttacker = attacker:GetActiveWeapon()
-			
-			if WeaponAttacker:IsScripted() and (WeaponAttacker.Base == "weapon_cs_base" or WeaponAttacker.BurgerBase) then
-				if WeaponAttacker.Primary.NumShots > 1 then
-					ShouldProceed = false
-				end
-			end
-		end
-	
-		if ShouldProceed and VictimKeyDown and Weapon:GetNextSecondaryFire() <= CurTime() then
-		
-			if (hitgroup == HITGROUP_LEFTLEG or hitgroup == HITGROUP_RIGHTLEG) then
-
-			else
-			
-				local VictimAngles = victim:GetAngles() + Angle(0,180,0)
-				local AttackerAngles = attacker:GetAngles()
-				VictimAngles:Normalize()
-				AttackerAngles:Normalize()
-				local NewAngles = VictimAngles - AttackerAngles
-				NewAngles:Normalize()
-				local Yaw = math.abs(NewAngles.y)
-				
-				if Yaw < 45 then
-					Weapon:BlockDamage(Damage)
-					return true
-				end
-				
-			end
-			
-		end
-	end
-	--]]
-end
-
-hook.Add("ScalePlayerDamage","SHIELD_ScalePlayerDamage",SHIELD_ScalePlayerDamage)
 
 
 

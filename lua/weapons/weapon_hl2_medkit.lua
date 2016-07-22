@@ -10,7 +10,7 @@ SWEP.WeaponType			= "Free"
 SWEP.Base				= "weapon_cs_base"
 
 
-SWEP.CSSMoveSpeed			= 200
+SWEP.CSSMoveSpeed		= 200
 
 SWEP.Spawnable			= true
 SWEP.UseHands			= true

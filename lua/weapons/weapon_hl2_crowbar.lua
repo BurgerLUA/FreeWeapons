@@ -6,10 +6,10 @@ end
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "CROWBAR"
 SWEP.Base					= "weapon_cs_base"
-SWEP.WeaponType				= "Free"
+SWEP.WeaponType				= "Melee"
 
 SWEP.Cost					= 0
-SWEP.CSSMoveSpeed				= 250
+SWEP.CSSMoveSpeed			= 240
 
 SWEP.Spawnable				= true
 SWEP.AdminOnly				= false
@@ -22,19 +22,19 @@ SWEP.WorldModel				= "models/weapons/w_crowbar.mdl"
 SWEP.VModelFlip 			= false
 SWEP.HoldType				= "melee"
 
-SWEP.Primary.Damage			= 20
+SWEP.Primary.Damage			= 34
 SWEP.Primary.NumShots		= 1
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.SpareClip		= -1
-SWEP.Primary.Delay			= 1/(240/60)
+SWEP.Primary.Delay			= 0.34
 SWEP.Primary.Ammo			= "none"
 SWEP.Primary.Automatic 		= true 
 
-SWEP.Secondary.Damage		= 40
+SWEP.Secondary.Damage		= 0
 SWEP.Secondary.NumShots		= 1
 SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.SpareClip	= -1
-SWEP.Secondary.Delay		= 1/(120/60)
+SWEP.Secondary.Delay		= 0
 SWEP.Secondary.Ammo			= "none"
 SWEP.Secondary.Automatic 	= true 
 
@@ -51,51 +51,61 @@ SWEP.HasSilencer 			= false
 SWEP.HasDoubleZoom			= false
 SWEP.HasSideRecoil			= false
 
-SWEP.MeleeSoundMiss			= Sound("weapons/iceaxe/iceaxe_swing1.wav")
-SWEP.MeleeSoundWallHit		= Sound("physics/concrete/concrete_impact_bullet1.wav")
-SWEP.MeleeSoundFleshSmall	= Sound("physics/flesh/flesh_impact_bullet1.wav")
-SWEP.MeleeSoundFleshLarge	= Sound("physics/flesh/flesh_bloody_break.wav")
+SWEP.EnableBlocking			= true
+SWEP.IronSightTime			= 0.125
+SWEP.IronSightsPos 			= Vector(-10, -10, 5)
+SWEP.IronSightsAng 			= Vector(0, 0, -45)
+
+SWEP.MeleeSoundMiss			= Sound("Weapon_Crowbar.Single")
+SWEP.MeleeSoundWallHit		= Sound("Flesh.BulletImpact")
+SWEP.MeleeSoundFleshSmall	= Sound("Weapon_Crowbar.Melee_Hit")
+SWEP.MeleeSoundFleshLarge	= Sound("Weapon_Crowbar.Melee_Hit")
+
+SWEP.DamageFalloff			= 40
+SWEP.MeleeRange				= 40
+SWEP.MeleeDamageType		= DMG_CLUB
+SWEP.MeleeDelay				= 0
 
 function SWEP:PrimaryAttack()
+
 	if self:IsUsing() then return end
+	if self:GetNextPrimaryFire() > CurTime() then return end
+	if self.Owner:KeyDown(IN_ATTACK2) then return end
+	
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	self:SendWeaponAnim(ACT_VM_HITCENTER)
+
+	if self:NewSwing(self.Primary.Damage) then
+		self:SendWeaponAnim(ACT_VM_HITCENTER)
+	else
+		self:SendWeaponAnim(ACT_VM_MISSCENTER)
+	end
+	
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-	
-	if self:NewSwing(self.Primary.Damage) then
-		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
-		self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-	else
-		self:SetNextPrimaryFire(CurTime() + self.Primary.Delay*2)
-		self:SetNextSecondaryFire(CurTime() + self.Primary.Delay*2)
-	end
 	
 end
 
 function SWEP:SecondaryAttack()
 
-	if self:IsUsing() then return end
-	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	self:SendWeaponAnim(ACT_VM_MISSCENTER)
-	self:SetNextPrimaryFire(CurTime() + self.Secondary.Delay)
-	self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
-	
-	if self:NewSwing(self.Secondary.Damage) then
-		self:SetNextPrimaryFire(CurTime() + self.Secondary.Delay)
-		self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
-	else
-		self:SetNextPrimaryFire(CurTime() + self.Secondary.Delay*2)
-		self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay*2)
-	end
-	
 end
+
+function SWEP:BlockDamage(Damage,Attacker)
+	self.Owner:SetAnimation(PLAYER_ATTACK1)
+	self:SendWeaponAnim(ACT_VM_HITCENTER)
+	self:EmitGunSound(self.MeleeSoundMiss)
+	self.Owner:EmitSound(Sound("FX_RicochetSound.Ricochet"))
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay*0.5)
+	--self:SetNextSecondaryFire(CurTime() + self.Primary.Delay*0.25)
+	self:AddDurability(- math.ceil(Damage*0.1) )
+end
+
 
 function SWEP:Reload()
 	--PrintTable(GetActivities(self))
 end
 
 function SWEP:Deploy()
+	self:CheckInventory()
 	self.Owner:DrawViewModel(true)
 	self:SendWeaponAnim(ACT_VM_DRAW)
 	self:SetNextPrimaryFire(CurTime() + self.Owner:GetViewModel():SequenceDuration())	

@@ -9,7 +9,7 @@ SWEP.Base					= "weapon_cs_base"
 SWEP.WeaponType				= "Primary"
 
 SWEP.Cost					= 3500
-SWEP.CSSMoveSpeed				= 230
+SWEP.CSSMoveSpeed			= 220
 
 SWEP.Spawnable				= true
 SWEP.AdminOnly				= false
@@ -68,4 +68,4 @@ SWEP.IronSightsAng 			= Vector(0, 0, 0)
 
 SWEP.DamageFalloff			= 3000
 
-SWEP.TracerName 			= "AR2Tracer"
+SWEP.DamageType				= 2
