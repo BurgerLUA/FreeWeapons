@@ -3,12 +3,12 @@ if CLIENT then
 end
 
 SWEP.Category				= "Extra Weapons"
-SWEP.PrintName				= "STUNSTICK"
+SWEP.PrintName				= "Reinhardt's Hammer"
 SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Melee"
 
 SWEP.Cost					= 0
-SWEP.CSSMoveSpeed			= 240
+SWEP.CSSMoveSpeed			= 100
 
 SWEP.Spawnable				= true
 SWEP.AdminOnly				= false
@@ -16,10 +16,13 @@ SWEP.AdminOnly				= false
 SWEP.Slot					= 0
 SWEP.SlotPos				= 1
 
-SWEP.ViewModel 				= "models/weapons/c_stunstick.mdl"
-SWEP.WorldModel				= "models/weapons/w_stunbaton.mdl"
+SWEP.ViewModel 				= "models/weapons/c_crowbar.mdl"
+SWEP.WorldModel				= "models/weapons/w_crowbar.mdl"
+SWEP.DisplayModel			= Model("models/player/ow_reinhardt_hammer_classic.mdl")
 SWEP.VModelFlip 			= false
-SWEP.HoldType				= "melee"
+SWEP.HoldType				= "melee2"
+
+SWEP.UseHands				= false
 
 game.AddAmmoType({name = "smod_metal"})
 
@@ -27,12 +30,12 @@ if CLIENT then
 	language.Add("smod_metal_ammo","Metal")
 end
 
-SWEP.Primary.Damage			= 40
+SWEP.Primary.Damage			= 250
 SWEP.Primary.NumShots		= 1
-SWEP.Primary.ClipSize		= 100
-SWEP.Primary.SpareClip		= 0
-SWEP.Primary.Delay			= 0.6
-SWEP.Primary.Ammo			= "smod_weeb"
+SWEP.Primary.ClipSize		= -1
+SWEP.Primary.SpareClip		= -1
+SWEP.Primary.Delay			= 1
+SWEP.Primary.Ammo			= "none"
 SWEP.Primary.Automatic 		= true 
 
 SWEP.Secondary.Damage		= 0
@@ -46,7 +49,7 @@ SWEP.Secondary.Automatic 	= false
 SWEP.RecoilMul				= 1
 SWEP.HasScope 				= false
 SWEP.ZoomAmount 			= 1
-SWEP.HasCrosshair 			= false
+SWEP.HasCrosshair 			= true
 SWEP.HasCSSZoom 			= false
 
 SWEP.HasPumpAction 			= false
@@ -56,10 +59,10 @@ SWEP.HasSilencer 			= false
 SWEP.HasDoubleZoom			= false
 SWEP.HasSideRecoil			= false
 
-SWEP.MeleeSoundMiss			= Sound("Weapon_StunStick.Melee_Miss")
-SWEP.MeleeSoundWallHit		= Sound("Weapon_StunStick.Melee_HitWorld")
-SWEP.MeleeSoundFleshSmall	= Sound("Weapon_StunStick.Melee_Hit")
-SWEP.MeleeSoundFleshLarge	= Sound("Weapon_StunStick.Melee_Hit")
+SWEP.MeleeSoundMiss			= Sound("Weapon_Crowbar.Single")
+SWEP.MeleeSoundWallHit		= Sound("Flesh.BulletImpact")
+SWEP.MeleeSoundFleshSmall	= Sound("Weapon_Crowbar.Melee_Hit")
+SWEP.MeleeSoundFleshLarge	= Sound("Weapon_Crowbar.Melee_Hit")
 
 SWEP.IronSightTime			= 0.125
 SWEP.IronSightsPos 			= Vector(-10, -10, 5)
@@ -67,28 +70,32 @@ SWEP.IronSightsAng 			= Vector(0, 0, -45)
 
 SWEP.AddFOV					= 10
 
+SWEP.EnableBlocking			= false
+SWEP.DamageFalloff			= 120
+SWEP.MeleeRange				= 120
+SWEP.MeleeDamageType		= DMG_CLUB
+SWEP.MeleeDelay				= 0.2
 
-SWEP.EnableBlocking			= true
+SWEP.VElements = {
+	["hammer"] = { type = "Model", model = "models/player/ow_reinhardt_hammer_classic.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(2.596, 1.557, -20), angle = Angle(180, 90, 0), size = Vector(1, 1, 1), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
+}
 
+SWEP.WElements = {
+	["hammmer"] = { type = "Model", model = "models/player/ow_reinhardt_hammer_classic.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(8.831, 5.714, -35.845), angle = Angle(180, 90, 0), size = Vector(1, 1, 1), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
+}
 
-SWEP.DamageFalloff			= 40
-SWEP.MeleeRange				= 40
-SWEP.MeleeDamageType		= DMG_SHOCK
-SWEP.MeleeDelay				= 0
-
-
+SWEP.ShowViewModel = false
+SWEP.ShowWorldModel = false
 
 function SWEP:PrimaryAttack()
 	if self:IsUsing() then return end
 	if self:GetNextPrimaryFire() > CurTime() then return end
 	if self.Owner:KeyDown(IN_ATTACK2) then return end
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	self:SendWeaponAnim(ACT_VM_HITCENTER)
+	self:SendWeaponAnim(ACT_VM_MISSCENTER)
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	self:SetNextSecondaryFire(CurTime() + self.Primary.Delay)
-	if self:NewSwing(self.Primary.Damage*0.75 + (self.Primary.Damage*0.25*self:Clip1()*0.01) ) then
-		self:AddDurability(-2)
-	end
+	self:NewSwing(self.Primary.Damage)
 end
 
 function SWEP:SpareThink()
@@ -121,39 +128,45 @@ function SWEP:Reload()
 	--PrintTable(GetActivities(self))
 end
 
-function SWEP:AddDurability(amount)
-
-	self:SetClip1( math.Clamp(self:Clip1() + amount,0,100) )
-
-	if self:Clip1() <= 0 then
-		self.Owner:EmitSound("physics/metal/sawblade_stick1.wav")
-		if self and SERVER then
-			self.Owner:StripWeapon(self:GetClass())
-		end
-	end
-	
-end
-
 function SWEP:Deploy()
-
-	self:EmitGunSound(Sound("Weapon_StunStick.Activate"))
 	self.Owner:DrawViewModel(true)
 	self:SendWeaponAnim(ACT_VM_DRAW)
 	self:SetNextPrimaryFire(CurTime() + self.Owner:GetViewModel():SequenceDuration())	
 	self:CheckInventory()
-	
 	return true
 end
 
 function SWEP:BlockDamage(Damage,Attacker)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	self:SendWeaponAnim(ACT_VM_MISSCENTER)
-	self:EmitGunSound(self.MeleeSoundMiss)
-	self.Owner:EmitSound(Sound("AlyxEMP.Discharge"))
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay*0.5)
-	self:NewSwing(self.Primary.Damage * 0.5,Attacker,nil)
-	self:AddDurability( -3 )
 end
+
+
+
+hook.Add("CalcView","Large Hammer Calc",function(ply,pos,ang,fov,nearZ,farZ)
+
+	local Weapon = ply:GetActiveWeapon()
+	
+	if IsValid(Weapon) and Weapon:GetClass() == "weapon_extra_largehammer" then
+
+		local view = {}
+
+		
+		
+		--PrintTable(Data)
+		
+		view.drawviewer = true
+		view.angles = ang
+		view.fov = fov
+		local Data = ply:GetAttachment( ply:LookupAttachment( "eyes" ) )
+		view.origin = Data.Pos + ang:Forward()*20
+
+		return view
+		
+	end
+
+	
+end)
 
 
 

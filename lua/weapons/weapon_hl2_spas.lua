@@ -5,7 +5,7 @@ end
 
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "SHOTGUN"
-SWEP.Base					= "weapon_cs_base"
+SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Primary"
 
 SWEP.Spawnable				= true
@@ -37,7 +37,7 @@ SWEP.BurstSound = Sound("weapons/shotgun/shotgun_dbl_fire.wav")
 
 SWEP.RecoilMul 				= 0.25
 SWEP.SideRecoilMul			= 1
-SWEP.VelConeMul				= 1.5
+SWEP.MoveConeMul				= 1.5
 SWEP.HeatMul				= 1
 
 SWEP.BurstOverride			= 2

@@ -5,7 +5,7 @@ end
 
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "PISTOL"
-SWEP.Base					= "weapon_cs_base"
+SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Secondary"
 
 SWEP.Spawnable				= true
@@ -35,7 +35,7 @@ SWEP.ReloadSound			= Sound("weapons/pistol/pistol_reload1.wav")
 
 SWEP.RecoilMul				= 1
 SWEP.SideRecoilMul			= 0.25
-SWEP.VelConeMul				= 1
+SWEP.MoveConeMul				= 1
 SWEP.HeatMul				= 1.5
 
 SWEP.BurstOverride			= 3

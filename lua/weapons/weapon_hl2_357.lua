@@ -7,7 +7,7 @@ end
 
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= ".357"
-SWEP.Base					= "weapon_cs_base"
+SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Secondary"
 
 SWEP.Cost					= 0
@@ -36,7 +36,7 @@ SWEP.Primary.Automatic 		= false
 
 SWEP.RecoilMul				= 0.5
 SWEP.SideRecoilMul			= 0.5
-SWEP.VelConeMul				= 2
+SWEP.MoveConeMul				= 2
 SWEP.HeatMul				= 1
 
 SWEP.HasScope 				= false

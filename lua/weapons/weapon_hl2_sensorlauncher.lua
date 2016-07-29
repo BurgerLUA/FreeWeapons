@@ -1,6 +1,6 @@
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "SENSOR LAUNCHER"
-SWEP.Base					= "weapon_cs_base"
+SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Primary"
 
 SWEP.Cost					= 2000
@@ -30,7 +30,7 @@ SWEP.Primary.Automatic 		= false
 SWEP.ReloadSound = Sound("weapons/shotgun/shotgun_reload3.wav")
 
 SWEP.RecoilMul				= 1
-SWEP.VelConeMul				= 2
+SWEP.MoveConeMul				= 2
 
 SWEP.HasScope 				= true
 SWEP.ZoomAmount 			= 8

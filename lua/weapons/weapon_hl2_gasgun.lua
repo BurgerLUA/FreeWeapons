@@ -1,11 +1,11 @@
 if CLIENT then
-	--killicon.AddFont( "weapon_cs_smg",		"HL2MPTypeDeath",	"/",	Color( 255, 80, 0, 255 ) )
+	--killicon.AddFont( "weapon_burger_cs_smg",		"HL2MPTypeDeath",	"/",	Color( 255, 80, 0, 255 ) )
 	SWEP.WepSelectIcon 		= surface.GetTextureID("vgui/gfx/vgui/mp5")
 end
 
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "GAS GUN"
-SWEP.Base					= "weapon_cs_base"
+SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Primary"
 
 SWEP.Spawnable				= true
@@ -39,7 +39,7 @@ SWEP.Primary.Automatic 		= true
 
 SWEP.RecoilMul				= 1
 SWEP.SideRecoilMul			= 0.25
-SWEP.VelConeMul				= 1.25
+SWEP.MoveConeMul				= 1.25
 SWEP.HeatMul				= 0.5
 
 SWEP.BurstConeMul			= 0.5

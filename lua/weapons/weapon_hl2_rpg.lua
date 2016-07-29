@@ -7,7 +7,7 @@ end
 
 SWEP.Category				= "Extra Weapons"
 SWEP.PrintName				= "RPG"
-SWEP.Base					= "weapon_cs_base"
+SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Primary"
 
 SWEP.Cost					= 3500
@@ -42,7 +42,7 @@ SWEP.Primary.Automatic 		= true
 
 SWEP.RecoilMul				= 0.01
 SWEP.SideRecoilMul			= 0
-SWEP.VelConeMul				= 0
+SWEP.MoveConeMul				= 0
 SWEP.HeatMul				= 0
 
 SWEP.HasScope 				= true
