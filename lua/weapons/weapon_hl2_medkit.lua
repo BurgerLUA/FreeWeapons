@@ -12,7 +12,8 @@ SWEP.Base				= "weapon_burger_core_base"
 
 SWEP.CSSMoveSpeed		= 200
 
-SWEP.Spawnable			= true
+SWEP.Spawnable			= false
+SWEP.AdminOnly			= false
 SWEP.UseHands			= true
 
 SWEP.ViewModel			= "models/weapons/c_medkit.mdl"

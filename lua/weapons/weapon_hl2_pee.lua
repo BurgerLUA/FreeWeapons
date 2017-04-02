@@ -18,8 +18,8 @@ SWEP.HoldType 					= "normal"
 SWEP.DrawCrosshair 				= false
 SWEP.DrawAmmo 					= false  
 
-SWEP.Spawnable 					= true
-SWEP.AdminSpawnable 			= true
+SWEP.Spawnable 					= false
+SWEP.AdminSpawnable 			= false
 
 SWEP.AutoSwitchTo 				= false
 SWEP.AutoSwitchFrom 			= true
@@ -34,7 +34,7 @@ SWEP.Primary.Delay 				= 0.1
 
 SWEP.PenisHeal = 0
 
-SWEP.Secondary.Sound			= Sound ("vo/ravenholm/engage03.wav")						
+SWEP.Secondary.Sound			= Sound("vo/ravenholm/engage03.wav")						
 SWEP.Secondary.ClipSize			= -1
 SWEP.Secondary.DefaultClip		= -1
 SWEP.Secondary.Automatic		= true

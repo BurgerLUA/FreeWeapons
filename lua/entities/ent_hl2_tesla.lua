@@ -57,7 +57,7 @@ function ENT:FreeFire()
 			
 		if self:GetNWBool("Armed",false) and not self:GetNWBool("Detonated",false) then
 			if self.Ammo > 0 then
-				self:FireBullet(self.Owner:EyeAngles())
+				self:ShootCum(self.Owner:EyeAngles())
 			end
 		end
 		
@@ -80,7 +80,8 @@ function ENT:Think()
 						local TargetPos = Target:GetPos() + Target:OBBCenter()
 						local Angles = (TargetPos - self:GetPos()):Angle()
 						
-						self:FireBullet(Angles)
+						self:ShootCum(Angles)
+						
 						
 					end
 
@@ -92,7 +93,7 @@ function ENT:Think()
 
 			end
 		
-			self.NextFire = CurTime() + 0.33
+			self.NextFire = CurTime() + 1
 
 		end
 
@@ -104,18 +105,48 @@ function ENT:FireBullet(ang)
 	local Cone = 0
 	local Damage = 5
 
-	local PhysBullet = ents.Create("ent_cs_bullet")
+	local PhysBullet = ents.Create("ent_pee")
 	PhysBullet:SetPos(self:GetPos() + ang:Forward()*10 )
 	PhysBullet:SetAngles( ang + Angle(math.Rand(-Cone,Cone)*45,math.Rand(-Cone,Cone)*45,0) )
 	PhysBullet:SetColor(Color(0,0,255,255))
 	PhysBullet:Spawn()
-	PhysBullet:SetNWFloat("Damage",Damage)
 	PhysBullet:SetOwner(self.Owner or self)
+	PhysBullet:SetVelocity(ang:Forward()*1000)
+	
+	local Trail = util.SpriteTrail(PhysBullet, 0, Color(255,255,255), true, math.random(4,5), 0, 0.05 * math.random(1,3), 1/(15+1)*0.5, "effects/bloodstream.vmt")
+	
+	local phys = PhysBullet:GetPhysicsObject()
+	if IsValid(phys) then
+		phys:ApplyForceCenter(ang:Forward()*800)
+	end
+	
 	
 	self.Ammo = self.Ammo - 1
 	self:EmitSound("weapons/ar2/ar2_altfire.wav")
 		
 end
+
+ENT.ShootSound = Sound("vo/ravenholm/engage03.wav")
+
+function ENT:ShootCum(ShootAng)
+
+	self:EmitSound(self.ShootSound)
+
+	local ent = ents.Create("ent_cum")
+	ent:SetPos(self:GetPos() + ShootAng:Forward()*10)
+	ent:SetAngles(ShootAng)
+	ent:SetOwner(self.Owner or self)
+	ent:Spawn()
+	local Trail = util.SpriteTrail(ent, 0, Color(255,255,255), true, math.random(4,5), 0, 0.05 * math.random(1,3), 1/(15+1)*0.5, "effects/bloodstream.vmt")
+	
+	local phys = ent:GetPhysicsObject()
+	if IsValid(phys) then
+		phys:ApplyForceCenter(ShootAng:Forward()*800)
+	end
+	
+end
+
+
 
 function ENT:FindTarget()
 

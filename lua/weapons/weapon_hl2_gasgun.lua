@@ -8,7 +8,7 @@ SWEP.PrintName				= "GAS GUN"
 SWEP.Base					= "weapon_burger_core_base"
 SWEP.WeaponType				= "Primary"
 
-SWEP.Spawnable				= true
+SWEP.Spawnable				= false
 SWEP.AdminOnly				= false
 
 SWEP.Slot					= 2

@@ -20,6 +20,7 @@ function ENT:Initialize()
 		phys:Wake()
 		phys:SetBuoyancyRatio(0)
 	end
+	
 end
 
 function ENT:PhysicsCollide(data, physobj)
@@ -120,35 +121,30 @@ end
 
 function ENT:Think()
 
-	if not self.FakeOwner:IsValid() then self:Remove() return end
-	
-	if not self.Hit then return end
-
-	if CurTime() >= self.armTime then
+	if not self.FakeOwner:IsValid() then
+		SafeRemoveEntity(self)
+		return 
+	elseif not self.Hit then
+		return
+	elseif CurTime() >= self.armTime then
 		if self.soundVar == 0 then
 			self:EmitSound("weapons/tripwire/mine_activate.wav")
 			self.soundVar = 1
 		end
-	else return end
-
-	if not self.FakeOwner:Alive() then self:Detonate(self,self:GetPos()) return end
-	
-	
-	if not self.FakeOwner or self.FakeOwner == NULL then
-		SafeRemoveEntity(self)
 	end
-	
-	if not self.FakeOwner:GetActiveWeapon() or self.FakeOwner:GetActiveWeapon() == NULL then
+		
+	if not self.FakeOwner:Alive() then
+		self:Detonate(self,self:GetPos()) 
+	elseif not self.FakeOwner or self.FakeOwner == NULL then
 		SafeRemoveEntity(self)
-	end
-	
-	if self.FakeOwner:GetActiveWeapon():GetClass() == "weapon_hl2_c4" and self.FakeOwner:KeyDown( IN_ATTACK2 ) then
+	elseif not self.FakeOwner:GetActiveWeapon() or self.FakeOwner:GetActiveWeapon() == NULL then
+		SafeRemoveEntity(self)
+	elseif self.FakeOwner:GetActiveWeapon():GetClass() == "weapon_hl2_c4" and self.FakeOwner:KeyDown( IN_ATTACK2 ) then
 		if self.Parented == 1 then
 			self:Detonate(self,self.HitEntity:GetPos())
 		else
 			self:Detonate(self,self:GetPos())
 		end
-			
 	end
 
 end

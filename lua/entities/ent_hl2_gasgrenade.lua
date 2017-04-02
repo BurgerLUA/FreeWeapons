@@ -54,7 +54,7 @@ function ENT:Think()
 
 			if self.NextParticle <= CurTime() then 
 			
-				local ent = ents.Create("ent_ent_gasparticle")
+				local ent = ents.Create("ent_hl2_gasparticle")
 				ent:SetPos(self:GetPos() + self:GetUp()*5)
 				ent:SetAngles(Angle(0,0,0))
 				ent:Spawn()

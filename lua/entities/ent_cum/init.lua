@@ -48,7 +48,7 @@ function ENT:PhysicsCollide(data, physobj)
 		ent:SetPos(data.HitPos) -- This positions the zombie at the place our trace hit.
 		ent:Spawn()
 		ent:EmitSound("ambient/creatures/teddy.wav", 100, 100)
-		--SafeRemoveEntityDelayed(ent,10)
+		SafeRemoveEntityDelayed(ent,60)
 		data.HitEntity:TakeDamage( 50 , self.Owner , self.Entity )
 	end
 		

@@ -2,8 +2,12 @@ SWEP.PrintName			= "REMOTE CHARGES"
 SWEP.Author				= "Burger"
 SWEP.Instructions		= "Left Click to throw c4, right click to detonate."
 
-SWEP.Spawnable = true
-SWEP.AdminOnly = false
+SWEP.Spawnable 			= true
+SWEP.AdminOnly 			= false
+
+SWEP.Base					= "weapon_burger_core_base"
+SWEP.WeaponType				= "Throwable"
+
 
 SWEP.Weight			= 5
 SWEP.AutoSwitchTo		= false
@@ -13,7 +17,7 @@ SWEP.Category				= "Extra Weapons"
 SWEP.Slot			= 4
 SWEP.SlotPos			= 0
 SWEP.DrawAmmo			= false
-SWEP.DrawCrosshair		= true
+SWEP.DrawCrosshair		= false
 
 SWEP.ViewModel			= "models/weapons/v_slam.mdl"
 SWEP.WorldModel			= "models/weapons/w_slam.mdl"
@@ -21,7 +25,7 @@ SWEP.WorldModel			= "models/weapons/w_slam.mdl"
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= 5
 SWEP.Primary.Automatic		= true
-SWEP.Primary.Ammo		= "slam"
+SWEP.Primary.Ammo		= "none"
 
 SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip	= -1
@@ -33,15 +37,10 @@ if CLIENT then
 end
 
 function SWEP:PrimaryAttack()
-	
-	
-	if ( CLIENT ) then return end
-	
-	
+
 	self.Weapon:SetNextPrimaryFire( CurTime() + 0.75 )	
 	
-	if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
-	
+	--if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
 	
 	local Count = 0
 	
@@ -52,29 +51,31 @@ function SWEP:PrimaryAttack()
 	if Count >= 5 then return end
 
 	self:SendWeaponAnim( ACT_SLAM_THROW_THROW )
+
+	if SERVER and IsFirstTimePredicted() then
+
+		timer.Simple(0.5,function() 
+			if self  == nil then return end
+			if self:IsValid() == false then return end
+			if self.Owner == nil then return end
+			if self.Owner:IsValid() == false then return end
+			if self.Owner:Alive() == false then return end
+
+			self:SendWeaponAnim( ACT_SLAM_DETONATOR_DRAW )
+			local ent = ents.Create( "ent_hl2_c4" )
+				EA =  self.Owner:EyeAngles()
+				pos = self.Owner:GetShootPos()
+				pos = pos + EA:Right() * 5 - EA:Up() * 4 + EA:Forward() * 8
+							
+				ent:SetPos(pos)
+				ent:SetAngles(EA + Angle(-90,0,0))
+				ent:Spawn()
+				ent:Activate()
+				ent.FakeOwner = self.Owner
+				ent:GetPhysicsObject():SetVelocity(self.Owner:GetVelocity() + EA:Forward() * 500 + EA:Up()*100)
+		end)
 		
-	self:TakePrimaryAmmo(1)
-
-	timer.Simple(0.5,function() 
-		if self  == nil then return end
-		if self:IsValid() == false then return end
-		if self.Owner == nil then return end
-		if self.Owner:IsValid() == false then return end
-		if self.Owner:Alive() == false then return end
-
-		self:SendWeaponAnim( ACT_SLAM_DETONATOR_DRAW )
-		local ent = ents.Create( "ent_hl2_c4" )
-			EA =  self.Owner:EyeAngles()
-			pos = self.Owner:GetShootPos()
-			pos = pos + EA:Right() * 5 - EA:Up() * 4 + EA:Forward() * 8
-						
-			ent:SetPos(pos)
-			ent:SetAngles(EA + Angle(-90,0,0))
-			ent:Spawn()
-			ent:Activate()
-			ent.FakeOwner = self.Owner
-			ent:GetPhysicsObject():SetVelocity(self.Owner:GetVelocity() + EA:Forward() * 500 + EA:Up()*100)
-	end)
+	end
 
 end
  
