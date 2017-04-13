@@ -134,7 +134,8 @@ function ENT:Think()
 	end
 		
 	if not self.FakeOwner:Alive() then
-		self:Detonate(self,self:GetPos()) 
+		--self:Detonate(self,self:GetPos()) 
+		SafeRemoveEntity(self)
 	elseif not self.FakeOwner or self.FakeOwner == NULL then
 		SafeRemoveEntity(self)
 	elseif not self.FakeOwner:GetActiveWeapon() or self.FakeOwner:GetActiveWeapon() == NULL then
